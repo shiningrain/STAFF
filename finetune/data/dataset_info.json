@@ -1,0 +1,23 @@
+{
+  "dialogsum": {
+    "file_name": "YOUR_DIR/STAFF/finetune/data/dialogsum_demo.json",
+    "columns": {
+      "prompt": "prompt",
+      "response":"summary"
+    }
+  },
+  "wmt": {
+    "file_name": "YOUR_DIR/STAFF/finetune/data/wmt19_demo.json",
+    "columns": {
+      "prompt": "prompt",
+      "response":"translation"
+    }
+  },
+  "bioinstruct": {
+    "file_name": "YOUR_DIR/STAFF/finetune/data/bioinstruct_demo.json",
+    "columns": {
+      "prompt": "prompt",
+      "response":"response"
+    }
+  }
+}
