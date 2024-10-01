@@ -7,42 +7,14 @@ import numpy as np
 import copy
 import random
 
-def get_offset_list(score_list,budget_list):
-    # new_budget_list=copy.deepcopy(budget_list)
-    start_ids=None
-    sum_list=[]
-    tmp_budget=[]
-    for i in range(len(score_list)):
-        if score_list[i]!=None:
-            # if start_ids==None:
-            #     start_ids=i
-            # end_ids=i
-            sum_list.append(score_list[i]*budget_list[i])
-            tmp_budget.append(budget_list[i])
-        else:
-            sum_list.append(0)
-            tmp_budget.append(0)
-    avg_score=sum(sum_list)/sum(tmp_budget)
-    new_budget_list=[]
-    for i in range(len(score_list)):
-        if score_list[i]==None:
-            new_budget_list.append(budget_list[i])
-        else:
-            new_budget_list.append(math.floor(sum_list[i]/avg_score))
-    # interval=(score_list[start_ids]-score_list[end_ids])/(end_ids-start_ids)
-    # for i in range(start_ids,end_ids):
-    #     new_budget_list[i]=max(1,int((score_list[i]-(i-start_ids)*interval)/score_list[i]*budget_list[i]))
-        
-    return new_budget_list
 
 def get_core_set(overall,effort_7b,method='H',rate=0.1, verify_sample_rate=None):
 
-    hard_prune=rate#(_value+4)/10#0.1
+    hard_prune=rate
     k=50
     n_fewshot=int(len(overall)*hard_prune)
     scores_sorted, indices = torch.sort(overall, descending=True)
-    # n_prune = math.floor(hard_prune * len(scores_sorted))
-    
+
     n_prune = math.floor(0.1 * len(scores_sorted))
 
     scores_sorted = scores_sorted[n_prune:]
@@ -61,7 +33,6 @@ def get_core_set(overall,effort_7b,method='H',rate=0.1, verify_sample_rate=None)
     
     verify_set=[]
     budget_list=[]
-    # coreset = []
     m = n_fewshot
     verify_score_split=copy.deepcopy(score_split)
     while len(verify_score_split):
@@ -88,7 +59,7 @@ def get_core_set(overall,effort_7b,method='H',rate=0.1, verify_sample_rate=None)
         verify_score_split = group[1:]
         m = m - len(selected_idx)
 
-    # reweight budget list based on LLM feedback. TODO: realtime inference
+    # reweight budget list based on LLM feedback.
     overall=overall.tolist()
     effort_7b_score_list=[]
     for i in range(len(verify_set)):
@@ -122,8 +93,6 @@ def get_core_set(overall,effort_7b,method='H',rate=0.1, verify_sample_rate=None)
             selected_idx = [list(_.keys())[0] for _ in sorted_data[:budget]]
         coreset.extend(selected_idx)
         count+=1
-        # print(budget)
-
         # remove the fewest group
         score_split = group[1:]
         effort_7b_score_list=effort_7b_score_list[1:]
@@ -135,7 +104,6 @@ def get_core_set(overall,effort_7b,method='H',rate=0.1, verify_sample_rate=None)
         coreset.extend(sampled_data)
     elif m<0:
         coreset=coreset[:m]
-    print(len(coreset))
     return coreset
 
 if __name__=="__main__":
@@ -156,16 +124,16 @@ if __name__=="__main__":
     effort_2b_path=os.path.join(args.small_model_dir,f'scores-{args.task}.pkl')
     effort_7b_path=os.path.join(args.large_model_dir,f'scores-{args.task}.pkl')
 
-    with open(effort_2b_path, 'rb') as f:#input,bug type,params
+    with open(effort_2b_path, 'rb') as f:
         effort_2b = pickle.load(f)
     effort_2b_norm=effort_2b['score_norm']['Effort']
     if os.path.exists(effort_7b_path):
-        with open(effort_7b_path, 'rb') as f:#input,bug type,params
+        with open(effort_7b_path, 'rb') as f:
             effort_7b = pickle.load(f)
         effort_7b_score=effort_7b['score_norm']['Effort'].tolist()
     else:
-        # calculte in runtime #TODO
-        print('update soon')
+        # verification in runtime #TODO
+        print('Please calculate effort score first')
         os._exit(0)
 
 
