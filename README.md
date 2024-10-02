@@ -6,7 +6,7 @@ We propose a novel and efficient data selection method, *STAFF*, based on the co
 speculative execution.
 STAFF first leverages a small model in the same family of the target LLM as the speculative model to calculate the data importance score.
 It then verifies the scores on the target LLM to accurately identify the important data regions and allocates more budget for important samples.
-Our experiment results on three LLMs and three downstream tasks demonstrate that STAFF can effectively select the coreset at different pruning rates, improving SOTA results by up to 35.1% while reducing selection costs by up to 70.5%
+Our experiment results on three LLMs and three downstream tasks demonstrate that STAFF can effectively select the coreset at different pruning rates, improving SOTA results by up to 54.3% while reducing selection costs by up to 70.5%
 
 
 *Note that STAFF is still a prototype, and we will keep improving it and our dataset.*
