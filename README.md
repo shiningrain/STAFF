@@ -77,7 +77,7 @@ More details of the scripts are [here](./finetune/README.md)
 ## Experiment Results
 
 To verify the effectiveness and efficiency of STAFF in coreset selection for various downstream tasks, we compare STAFF with 5 state-of-the-art selection methods on three LLM and three downstream tasks (i.e., biology question-answering, dialogue summarization, and translation of minority languages).
-Experiment results show that STAFF outperforms state-of-art methods for coreset selection across different pruning rates, improving fine-tuning performance by up to 54.25% compared to the best baseline method and saving up to 70.5% of selection overhead.
+Experiment results show that STAFF outperforms state-of-art methods for coreset selection across different pruning rates, improving fine-tuning performance by up to 54.3% compared to the best baseline method and saving up to 70.5% of selection overhead.
 Additionally, we observe that STAFF has the potential to outperform fine-tuning on the full dataset at low pruning rates (e.g., 20%), further demonstrating the effectiveness of STAFF in selecting coreset and improving data efficiency.
 
 ![figure](./1.jpg)
