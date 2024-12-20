@@ -799,7 +799,7 @@ class Effort_Trainer(Trainer):
         Return:
             `torch.Tensor`: The tensor with training loss on this batch.
         """
-        start_time=time.time()
+        
         model.train()
         if self.model_type=='llama27':
             target_layer=31
@@ -832,7 +832,7 @@ class Effort_Trainer(Trainer):
         else:
             self.accelerator.backward(torch.mean(loss), retain_graph=True)
 
-        
+        start_time=time.time()
         if self.get_batch_grad:
             try:
                 gradient = model.base_model.model.base_model.model.model.layers[target_layer].self_attn.v_proj.lora_B.weight.grad.reshape(-1).cpu()
